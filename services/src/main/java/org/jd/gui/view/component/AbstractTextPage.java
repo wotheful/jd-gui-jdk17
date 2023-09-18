@@ -132,7 +132,7 @@ public class AbstractTextPage extends JPanel implements LineNumberNavigable, Con
         });
 
         Gutter gutter = scrollPane.getGutter();
-        gutter.setFoldIcons(COLLAPSED_ICON, EXPANDED_ICON);
+        // gutter.setFoldIcons(COLLAPSED_ICON, EXPANDED_ICON);
         gutter.setFoldIndicatorForeground(gutter.getBorderColor());
 
         add(scrollPane, BorderLayout.CENTER);

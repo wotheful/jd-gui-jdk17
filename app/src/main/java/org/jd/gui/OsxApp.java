@@ -7,14 +7,13 @@
 
 package org.jd.gui;
 
-import com.apple.eawt.Application;
+import java.awt.Desktop;
 
 public class OsxApp extends App {
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        // Create an instance of the mac OSX Application class
-        Application application = Application.getApplication();
+        Desktop application = Desktop.getDesktop();
 
         App.main(args);
 

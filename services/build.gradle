@@ -1,20 +1,20 @@
 apply plugin: 'java'
 
 dependencies {
-    compile 'com.fifesoft:rsyntaxtextarea:3.0.4'
-    compile 'org.ow2.asm:asm:7.1'
-    compile 'org.jd:jd-core:' + parent.jdCoreVersion
-    compile project(':api')
-    testCompile 'junit:junit:4.12'
+    implementation 'com.fifesoft:rsyntaxtextarea:3.3.4'
+    implementation 'org.ow2.asm:asm:9.5'
+    implementation 'org.jd:jd-core:' + parent.jdCoreVersion
+    implementation project(':api')
+    testImplementation 'junit:junit:4.13.2'
 }
 
 version = parent.version
 
 // ANTLR //
 ext.antlr4 = [
-        antlrSource: 'src/main/antlr',
-        destinationDir: 'src-generated/antlr/java',
-        grammarPackage: 'org.jd.gui.util.parser.antlr'
+    antlrSource: 'src/main/antlr',
+    destinationDir: 'src-generated/antlr/java',
+    grammarPackage: 'org.jd.gui.util.parser.antlr'
 ]
 
 configurations {
@@ -24,8 +24,8 @@ configurations {
 }
 
 dependencies {
-    compile 'org.antlr:antlr4-runtime:4.5'
-    antlr4 'org.antlr:antlr4:4.5'
+    implementation 'org.antlr:antlr4-runtime:4.13.1'
+    antlr4 'org.antlr:antlr4:4.13.1'
 }
 
 task antlr4OutputDir() {
