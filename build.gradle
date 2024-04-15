@@ -1,3 +1,8 @@
+apply plugin: 'java'
+apply plugin: 'distribution'
+apply plugin: 'edu.sc.seis.launch4j'
+apply plugin: 'com.netflix.nebula.ospackage'
+
 buildscript {
     repositories {
         mavenCentral()
@@ -8,23 +13,17 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.netflix.nebula:gradle-ospackage-plugin:9.1.1'
+        classpath 'com.netflix.nebula:gradle-ospackage-plugin:11.8.1'
         classpath 'edu.sc.seis.launch4j:launch4j:3.0.5'
-        classpath('com.guardsquare:proguard-gradle:7.3.2') {
+        classpath('com.guardsquare:proguard-gradle:7.4.2') {
             exclude group: 'com.android.tools.build'
         }
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'distribution'
-apply plugin: 'edu.sc.seis.launch4j'
-apply plugin: 'nebula.ospackage'
-
 // Common configuration //
 rootProject.version = '1.7.0'
 rootProject.ext.set('jdCoreVersion', '1.2.0')
-targetCompatibility = '1.8'
 
 allprojects {
     apply plugin: 'eclipse'
