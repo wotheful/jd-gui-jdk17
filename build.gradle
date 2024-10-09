@@ -134,15 +134,22 @@ ospackage {
     buildDeb.dependsOn 'proguard'
     buildRpm.dependsOn 'proguard'
 
-    license = file('LICENSE')
-    maintainer 'Emmanuel Dupuy <emmanue1@users.noreply.github.com>'
     os LINUX
-    packageDescription 'JD-GUI, a standalone graphical utility that displays Java sources from CLASS files'
-    packageGroup 'java'
+    distribution 'focal'
+    customField 'Urgency', 'medium'
     packageName project.name
-    release '0'
+    packageDescription 'JD-GUI, a standalone graphical utility that displays Java sources from class files'
     summary 'A Java Decompiler'
-    url 'https://github.com/java-decompiler/jd-gui'
+    packageGroup 'java'
+    maintainer 'Quentin Lienhardt <pro@quentium.fr>'
+    version project.version
+    release '2'
+    customField 'Standards-Version', '4.6.2'
+    url 'https://github.com/QuentiumYT/jd-gui'
+    customField 'Vcs-Browser', 'https://github.com/QuentiumYT/jd-gui'
+    customField 'Vcs-Git', 'https://github.com/QuentiumYT/jd-gui.git'
+    license = file('LICENSE')
+    requires 'default-jre | default-jre-headless | openjdk-8-jre-headless | openjdk-11-jre-headless | openjdk-17-jre-headless'
 
     into '/opt/' + project.name
     from (proguard.outJarFiles[0]) {
@@ -154,7 +161,22 @@ ospackage {
     from 'LICENSE', 'NOTICE', 'README.md'
 
     postInstall 'cd /opt/' + project.name + '; ln -s ./' + file(proguard.outJarFiles[0]).name + ' ./jd-gui.jar; xdg-icon-resource install --size 128 --novendor ./jd_icon_128.png jd-gui; xdg-desktop-menu install ./*.desktop'
-    preUninstall 'cd /opt/' + project.name + '; rm -f ./jd-gui.jar; rm -fr ./ext; xdg-desktop-menu uninstall ./*.desktop'
+    preUninstall 'cd /opt/' + project.name + '; rm -f ./jd-gui.jar; rm -fr ./ext; xdg-desktop-menu uninstall ./jd-gui.desktop'
+
+    afterEvaluate {
+        def outputDir = "build/distributions/${project.name}-${project.version}"
+
+        tasks.buildDeb.doLast {
+            copy {
+                from buildDeb.outputs.files
+                into outputDir
+            }
+            copy {
+                from 'src/linux/resources/debian'
+                into outputDir + '/debian'
+            }
+        }
+    }
 }
 
 // Distributions for OSX and Windows //
@@ -190,6 +212,19 @@ distributions {
     installOsxDist.dependsOn 'proguard'
     osxDistTar.dependsOn 'proguard'
     osxDistZip.dependsOn 'proguard'
+}
+
+// Task to run debuild -S after buildDeb
+tasks.register('debuild', Exec) {
+    def debFolder = file("build/distributions/${project.name}-${project.version}")
+
+    if (debFolder.exists()) {
+        // Run 'debuild -S' in the correct folder
+        commandLine 'bash', '-c', 'yes | debuild -S'
+        workingDir debFolder.absolutePath
+    } else {
+        throw new GradleException("Deb folder ${debFolder} does not exist!")
+    }
 }
 
 build.finalizedBy buildDeb
