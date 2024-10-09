@@ -351,7 +351,7 @@ public class MainController implements API {
             Desktop desktop = Desktop.getDesktop();
             if (desktop.isSupported(Desktop.Action.BROWSE)) {
                 try {
-                    desktop.browse(URI.create("http://java-decompiler.github.io"));
+                    desktop.browse(URI.create("https://java-decompiler.github.io"));
                 } catch (IOException e) {
                     assert ExceptionUtil.printStackTrace(e);
                 }
@@ -364,7 +364,7 @@ public class MainController implements API {
             Desktop desktop = Desktop.getDesktop();
             if (desktop.isSupported(Desktop.Action.BROWSE)) {
                 try {
-                    desktop.browse(URI.create("https://github.com/java-decompiler/jd-gui/issues"));
+                    desktop.browse(URI.create("https://github.com/QuentiumYT/jd-gui/issues"));
                 } catch (IOException e) {
                     assert ExceptionUtil.printStackTrace(e);
                 }
@@ -377,7 +377,7 @@ public class MainController implements API {
             Desktop desktop = Desktop.getDesktop();
             if (desktop.isSupported(Desktop.Action.BROWSE)) {
                 try {
-                    desktop.browse(URI.create("https://github.com/java-decompiler/jd-core/issues"));
+                    desktop.browse(URI.create("https://github.com/QuentiumYT/jd-core/issues"));
                 } catch (IOException e) {
                     assert ExceptionUtil.printStackTrace(e);
                 }
