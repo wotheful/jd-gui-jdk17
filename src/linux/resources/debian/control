@@ -1,0 +1,14 @@
+Source: jd-gui
+Section: java
+Priority: optional
+Maintainer: Quentin Lienhardt <pro@quentium.fr>
+Build-Depends: debhelper (>= 12)
+Standards-Version: 4.6.2
+Homepage: https://github.com/QuentiumYT/jd-gui
+Vcs-Browser: https://github.com/QuentiumYT/jd-gui
+Vcs-Git: https://github.com/QuentiumYT/jd-gui.git
+
+Package: jd-gui
+Architecture: all
+Depends: ${misc:Depends}, default-jre | default-jre-headless | openjdk-8-jre-headless | openjdk-11-jre-headless | openjdk-17-jre-headless
+Description: A Java Decompiler JD-GUI, a standalone graphical utility that displays Java sources from class files
