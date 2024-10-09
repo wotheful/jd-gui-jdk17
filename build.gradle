@@ -1,24 +1,25 @@
-apply plugin: 'java'
-apply plugin: 'distribution'
-apply plugin: 'edu.sc.seis.launch4j'
-apply plugin: 'com.netflix.nebula.ospackage'
-
 buildscript {
     repositories {
         mavenCentral()
-        mavenLocal()
-        jcenter()
-        maven {
-            url 'https://plugins.gradle.org/m2/'
-        }
     }
     dependencies {
-        classpath 'com.netflix.nebula:gradle-ospackage-plugin:11.8.1'
-        classpath 'edu.sc.seis.launch4j:launch4j:3.0.5'
-        classpath('com.guardsquare:proguard-gradle:7.4.2') {
-            exclude group: 'com.android.tools.build'
-        }
+        classpath 'com.guardsquare:proguard-gradle:7.6.0'
     }
+}
+
+plugins {
+    id 'java'
+    id 'distribution'
+    id('edu.sc.seis.launch4j') version '3.0.6'
+    id('com.netflix.nebula.ospackage') version '11.10.0'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://plugins.gradle.org/m2/'
+    }
+    mavenLocal()
 }
 
 // Common configuration //
@@ -37,7 +38,10 @@ allprojects {
     }
 
     repositories {
-        jcenter()
+        mavenCentral()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
         mavenLocal()
     }
 
@@ -45,13 +49,6 @@ allprojects {
         provided
         compile.extendsFrom provided
     }
-}
-
-// 'cleanIdea' task extension //
-cleanIdea.doFirst {
-    delete project.name + '.iws'
-    delete 'out'
-    followSymlinks = true
 }
 
 // All in one JAR file //
@@ -80,9 +77,9 @@ jar {
 
     manifest {
         attributes 'Main-Class': 'org.jd.gui.App',
-                'SplashScreen-Image': 'org/jd/gui/images/jd_icon_128.png',
-                'JD-GUI-Version': project.version,
-                'JD-Core-Version': project.jdCoreVersion
+                   'SplashScreen-Image': 'org/jd/gui/images/jd_icon_128.png',
+                   'JD-GUI-Version': project.version,
+                   'JD-Core-Version': project.jdCoreVersion
     }
     exclude 'META-INF/licenses/**', 'META-INF/maven/**', 'META-INF/INDEX.LIST'
     exclude '**/ErrorStrip_*.properties', '**/RSyntaxTextArea_*.properties', '**/RTextArea_*.properties'
@@ -107,10 +104,14 @@ jar {
 }
 
 // Minify JAR file //
-task proguard(type: proguard.gradle.ProGuardTask, dependsOn: 'jar') {
+task proguard(type: proguard.gradle.ProGuardTask) {
+    dependsOn 'jar'
+
     configuration 'src/proguard/resources/proguard.config.txt'
+
     injars jar.archivePath
     outjars 'build/libs/' + project.name + '-' + project.version + '-min.jar'
+
     libraryjars System.getProperty('java.home') + '/lib/rt.jar'
     libraryjars System.getProperty('java.home') + '/jmods/'
 }

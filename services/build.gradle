@@ -1,14 +1,6 @@
-apply plugin: 'java'
-
-dependencies {
-    implementation 'com.fifesoft:rsyntaxtextarea:3.3.4'
-    implementation 'org.ow2.asm:asm:9.5'
-    implementation 'org.jd:jd-core:' + parent.jdCoreVersion
-    implementation project(':api')
-    testImplementation 'junit:junit:4.13.2'
+plugins {
+    id 'java'
 }
-
-version = parent.version
 
 // ANTLR //
 ext.antlr4 = [
@@ -24,9 +16,16 @@ configurations {
 }
 
 dependencies {
+    implementation 'com.fifesoft:rsyntaxtextarea:3.3.4'
+    implementation 'org.ow2.asm:asm:9.5'
     implementation 'org.antlr:antlr4-runtime:4.13.1'
+    implementation 'org.jd:jd-core:' + parent.jdCoreVersion
+    implementation project(':api')
+    testImplementation 'junit:junit:4.13.2'
     antlr4 'org.antlr:antlr4:4.13.1'
 }
+
+version = parent.version
 
 task antlr4OutputDir() {
     mkdir antlr4.destinationDir
