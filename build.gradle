@@ -143,7 +143,7 @@ ospackage {
     packageGroup 'java'
     maintainer 'Quentin Lienhardt <pro@quentium.fr>'
     version project.version
-    release '2'
+    release '1'
     customField 'Standards-Version', '4.6.2'
     url 'https://github.com/QuentiumYT/jd-gui'
     customField 'Vcs-Browser', 'https://github.com/QuentiumYT/jd-gui'
